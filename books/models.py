@@ -6,7 +6,7 @@ class Author(models.Model):
     slug = models.SlugField()
 
     def __str__(self):
-        return f"{first_name} {last_name}"
+        return f"{self.first_name} {self.last_name}"
 
 class Book(models.Model):
     authors = models. ManyToManyField(Author)
@@ -44,4 +44,4 @@ class Solution(models.Model):
     image = models.ImageField()
 
     def __str__(self):
-        return f"{exercise}-{self.pk}"
+        return f"{self.exercise.title}-{self.pk}"
