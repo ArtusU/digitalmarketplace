@@ -7,22 +7,30 @@
     <a href="{% url 'books:book-list' %}">Book List</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">
-{{ book.title }}
+    {{ book.title }}
 </li>
 </ol>
 </nav>
 {% endblock breadcrumb %}
 
 {% block content %}
-<h1>This is the book detail</h1>
-<p>{{ book }}</p>
-<ul>
-{% for chapter in book.chapter_set.all %}
-    <li>
-        <a href="{{ chapter.get_absolute_url }}">
-        {{ chapter.title }}
-        </a>
-    </li>
-{% endfor %}
-</ul>
+<div class="row">
+    <aside class="col-xs-12 col-sm-12 col-md-8">
+    <div class="card">
+        <div class="card-header">
+            Chapters
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for chapter in book.chapter_set.all %}
+            <li class="list-group-item">
+            <a href="{{ chapter.get_absolute_url }}">
+                {{ chapter.chapter_number }}. {{ chapter.title }}
+            </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    </aside>
+</div>
 {% endblock content %}
