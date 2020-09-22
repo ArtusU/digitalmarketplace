@@ -32,6 +32,9 @@
     <div class="card">
         <div class="card-header">
             Solutions
+        </div>
+
+            {% if excercise.chapter.book in request.user.userlibrary.book_list %}
 
             {% for solution in exercise.solution_set.all %}
                 <div class="accordion" id="toggle-{{ solution.solution_number }}">
@@ -51,6 +54,16 @@
                     </div>
                 </div>
             {% endfor %}
+
+            {% else %}
+            <div class="text-center">
+            <h4>You do not have access to this book.
+            <a href="#">Purchase this book</a> to have acces to the solutions.</h4>
+            <img src="{% static 'images/lock.png' %}" />
+            </div>
+
+            {% endif %}
+
         </div>
     </div>
     
