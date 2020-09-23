@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from .models import Book, Chapter, Exercise
+from shopping_cart.models import Order, OrderItem
 
 def book_list(request):
     queryset = Book.objects.all()
@@ -12,8 +13,15 @@ def book_list(request):
 
 def book_detail(request, slug):
     book = get_object_or_404(Book, slug=slug)
+    order = Order.objects.get(user=request.user)
+    order_item = OrderItem.objects.get(book=book)
+    
+    book_is_in_cart = False
+    if order_item in order.items.all():
+        book_is_in_cart = True
     context = {
-        'book' : book
+        'book' : book,
+        'in_cart': book_is_in_cart
     }
     return render(request, 'book_detail.html', context)
 
