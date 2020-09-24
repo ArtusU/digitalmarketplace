@@ -28,13 +28,17 @@
 {% block content %}
 
 <div class="row">
+    <main class="col-md-4">
+    {% include "book_snippet.html" with book=chapter.book %}
+    </main>
+
     <aside class="col-md-8">
     <div class="card">
         <div class="card-header">
             Solutions
         </div>
 
-            {% if excercise.chapter.book in request.user.userlibrary.book_list %}
+            {% if book_status == 'owned' %}
 
             {% for solution in exercise.solution_set.all %}
                 <div class="accordion" id="toggle-{{ solution.solution_number }}">
