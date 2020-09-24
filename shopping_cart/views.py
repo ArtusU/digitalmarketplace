@@ -11,5 +11,15 @@ def add_to_cart(request, book_slug):
     order, created = Order.objects.get_or_create(user=request.user, is_ordered=False)
     order.items.add(order_item)
     order.save()
-    messages.info(request, "Item successfully added to your cart.")
+    #messages.info(request, "Item successfully added to your cart.")
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+
+def remove_from_cart(request, book_slug):
+    book = get_object_or_404(Book, slug=book_slug)
+    order_item = get_object_or_404(OrderItem, book=book)
+    order = get_object_or_404(Order, user=request.user)
+    order.items.remove(order_item)
+    order.save()
+    #messages.info(request, "Item successfully added to your cart.")
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
