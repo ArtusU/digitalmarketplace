@@ -23,3 +23,11 @@ def remove_from_cart(request, book_slug):
     order.save()
     #messages.info(request, "Item successfully added to your cart.")
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+
+def order_view(request):
+    order = get_object_or_404(Order, user=request.user)
+    context = {
+        'order': order
+    }
+    return render(request, "order_summary.html", context)
