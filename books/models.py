@@ -41,7 +41,7 @@ class Book(models.Model):
     publication_date = models.DateTimeField()
     isbn = models.CharField(max_length=16)
     slug = models.SlugField()
-    cover = models.ImageField()
+    cover = models.ImageField(null=True, blank=True)
     price = models.FloatField()
 
     def __str__(self):
@@ -55,7 +55,7 @@ class Book(models.Model):
 
 class Chapter(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    chapter_number = models.IntegerField()
+    chapter_number = models.IntegerField(default=1, null=True, blank=True)
     title = models.CharField(max_length=100)
 
     def __str__(self):
