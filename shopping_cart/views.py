@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -15,7 +16,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def create_ref_code():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
 
-
+@login_required
 def add_to_cart(request, book_slug):
     book = get_object_or_404(Book, slug=book_slug)
     order_item, created = OrderItem.objects.get_or_create(book=book)
@@ -25,7 +26,7 @@ def add_to_cart(request, book_slug):
     #messages.info(request, "Item successfully added to your cart.")
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
-
+@login_required
 def remove_from_cart(request, book_slug):
     book = get_object_or_404(Book, slug=book_slug)
     order_item = get_object_or_404(OrderItem, book=book)
@@ -35,7 +36,7 @@ def remove_from_cart(request, book_slug):
     #messages.info(request, "Item successfully added to your cart.")
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
-
+@login_required
 def order_view(request):
     order = get_object_or_404(Order, user=request.user)
     context = {
@@ -43,6 +44,8 @@ def order_view(request):
     }
     return render(request, "order_summary.html", context)
 
+
+@login_required
 @csrf_exempt
 def checkout(request):
     order = get_object_or_404(Order, user=request.user)
